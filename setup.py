@@ -77,10 +77,9 @@ def generate_key(backup_pass, key_file_pass):
     keypath = str(Path(__file__).parent / ".key")
     cypher = str(Path(__file__).parent / "cypher.py")
     os.system("echo {} > {}".format(backup_pass, keypath))
-    # os.system("python3 {} e {}".format(cypher, keypath))
-    cypher(keypath, key_file_pass, "")
+    encrypt(keypath, key_file_pass, "")
 
-def cypher(file, password, ext):
+def encrypt(file, password, ext):
     bash_command = "openssl aes-256-cbc -in {} -k {} -pbkdf2 -out {}".format(file, password, file.rstrip(ext)+".e")
     bash_command += "; rm -f {}".format(file)
     os.system(bash_command)
