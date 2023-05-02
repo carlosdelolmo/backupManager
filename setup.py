@@ -58,7 +58,9 @@ def getToml():
     key_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=15))
 
     res = {
-        'API_TOKEN': '{}'.format(apiToken),
+        'Telegram': {
+            'API_TOKEN': '{}'.format(apiToken)
+        },
         'Cypher': {
             'PASSWORD': '{}'.format(key_pass)
         },
