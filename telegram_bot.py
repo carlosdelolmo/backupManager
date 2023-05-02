@@ -7,7 +7,19 @@ import toml
 import os
 
 
-bot = telebot.TeleBot(None)
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, 'config.toml')
+try:
+    configFile = open(filename, "r")
+    configData = toml.load(configFile)
+    configFile.close()
+    token = configData.get("Telegram").get("API_TOKEN")
+except FileNotFoundError:
+    configFile = open(os.path.join(dirname, "API_TOKEN.txt"), "r")
+    token = configFile.readline()
+    configFile.close()
+bot = telebot.TeleBot(token)
+
 @bot.message_handler(commands=["help", "ayuda"])
 def enviar(message):
     if(isAuthUser(message.chat.id)):
@@ -92,15 +104,18 @@ def getAuthUsersName():
 
 def getAuthUsers():
     filename = os.path.join(dirname, 'notified_users')
-    f = open(filename, "r")
-    id = []
-    name = []
-    for user in f.readlines():
-        l = user.split("#")
-        if len(l) == 2 and not l[0].strip(" ").startswith("//"):
-            id.append(str(l[0]).strip(" "))
-            name.append(str(l[1]).strip("\n").strip(" "))
-    return id, name
+    try:
+        f = open(filename, "r")
+        id = []
+        name = []
+        for user in f.readlines():
+            l = user.split("#")
+            if len(l) == 2 and not l[0].strip(" ").startswith("//"):
+                id.append(str(l[0]).strip(" "))
+                name.append(str(l[1]).strip("\n").strip(" "))
+        return id, name
+    except FileNotFoundError:
+        return [], []
 
 
 def httpServer():
@@ -135,16 +150,5 @@ def answerTelegramMessages():
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2:
-        bot = telebot.TeleBot(sys.argv[1])
-        answerTelegramMessages()
-        httpServer()
-    else:
-        dirname = os.path.dirname(__file__)
-        filename = os.path.join(dirname, 'config.toml')
-        configFile = open(filename, "r")
-        configData = toml.load(configFile)
-        configFile.close()
-        bot = telebot.TeleBot(configData.get("Telegram").get("API_TOKEN"))
-        answerTelegramMessages()
-        httpServer()
+    answerTelegramMessages()
+    httpServer()
