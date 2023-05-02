@@ -16,7 +16,7 @@ try:
     token = configData.get("Telegram").get("API_TOKEN")
 except FileNotFoundError:
     configFile = open(os.path.join(dirname, "API_TOKEN.txt"), "r")
-    token = configFile.readline()
+    token = configFile.readline().strip("\n")
     configFile.close()
 bot = telebot.TeleBot(token)
 
