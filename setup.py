@@ -42,9 +42,13 @@ def getDirectorios():
     return res
 
 def getToml():
-    apiToken = input("Por favor, introduce el Token API del bot de Telegram: ")
-    while not (len(apiToken) > 0):
-        apiToken = input("Por favor, introduce el Token API del bot de Telegram: ")
+    with open('API_TOKEN.txt', 'r') as f:
+        apiToken = f.readline().strip(" \n")
+    # apiToken = input("Por favor, introduce el Token API del bot de Telegram: ")
+    # while not (len(apiToken) > 0):
+    #     apiToken = input("Por favor, introduce el Token API del bot de Telegram: ")
+    path = str(Path(__file__).parent / "API_TOKEN.txt")
+    os.system("rm {}".format(path))
     maxSizeGb = float(input("Por favor, introduce el tamaño máximo que puede ocupar el directorio de backups, en GB: "))
     while not (len(apiToken) > 0):
         maxSizeGb = float(input("Por favor, introduce el tamaño máximo que puede ocupar el directorio de backups, en GB: "))
