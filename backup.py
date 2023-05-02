@@ -6,6 +6,9 @@ import toml
 
 
 def dobackup():
+    backupsDir = str(Path(__file__).parent / "backups")
+    if not os.path.exists(backupsDir):
+        os.mkdir(backupsDir)
     dt = datetime.datetime.now()
     backupMap = getCompleteBackupsMap()
     lastBackupDates = getLastCompleteBackupList(backupMap)
