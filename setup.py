@@ -89,12 +89,13 @@ def encrypt(file, password, ext):
 
 
 def buildCrontab():
+    user = os.environ.get("USER")
     cron = CronTab(user=True)
 
-    job1 = cron.new(command='/usr/bin/python3 /home/$USER/backupManager/telegram_bot.py')
+    job1 = cron.new(command='/usr/bin/python3 /home/{}/backupManager/telegram_bot.py'.format(user))
     job1.setall('@reboot')
 
-    job2 = cron.new(command='/usr/bin/python3 /home/$USER/backupManager/backup.py b')
+    job2 = cron.new(command='/usr/bin/python3 /home/{}/backupManager/backup.py b'.format(user))
     job2.setall('59 23 * * *')
 
     cron.write()
