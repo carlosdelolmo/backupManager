@@ -1,3 +1,4 @@
+import sys
 import threading
 import telebot
 import socket
@@ -5,12 +6,8 @@ import backup
 import toml
 import os
 
-dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, 'config.toml')
-configFile = open(filename, "r")
-configData = toml.load(configFile)
-bot = telebot.TeleBot(configData.get("Telegram").get("API_TOKEN"))
 
+bot = telebot.TeleBot(None)
 @bot.message_handler(commands=["help", "ayuda"])
 def enviar(message):
     if(isAuthUser(message.chat.id)):
@@ -138,5 +135,16 @@ def answerTelegramMessages():
 
 
 if __name__ == '__main__':
-    answerTelegramMessages()
-    httpServer()
+    if len(sys.argv) == 2:
+        bot = telebot.TeleBot(sys.argv[1])
+        answerTelegramMessages()
+        httpServer()
+    else:
+        dirname = os.path.dirname(__file__)
+        filename = os.path.join(dirname, 'config.toml')
+        configFile = open(filename, "r")
+        configData = toml.load(configFile)
+        configFile.close()
+        bot = telebot.TeleBot(configData.get("Telegram").get("API_TOKEN"))
+        answerTelegramMessages()
+        httpServer()

@@ -2,7 +2,7 @@ import os
 import random
 import string
 from pathlib import Path
-
+from crontab import CronTab
 import toml
 
 
@@ -52,7 +52,6 @@ def getToml():
     while not (len(apiToken) > 0):
         cypherPass = input("Por favor, introduce la contraseña de cifrado de las copias: ")
     key_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=15))
-    generate_key(cypherPass, key_pass)
 
     res = {
         'API_TOKEN': '{}'.format(apiToken),
@@ -66,15 +65,36 @@ def getToml():
 
     with open('config.toml', 'w') as f:
         toml.dump(res, f)
-        return res
+
+    generate_key(cypherPass, key_pass)
+    return res
 
 def generate_key(backup_pass, key_file_pass):
     keypath = str(Path(__file__).parent / ".key")
     cypher = str(Path(__file__).parent / "cypher.py")
     os.system("echo {} > {}".format(backup_pass, keypath))
-    os.system("python3 {} e {}".format(cypher, keypath))
+    # os.system("python3 {} e {}".format(cypher, keypath))
+    cypher(keypath, key_file_pass, "")
 
+def cypher(file, password, ext):
+    bash_command = "openssl aes-256-cbc -in {} -k {} -pbkdf2 -out {}".format(file, password, file.rstrip(ext)+".e")
+    bash_command += "; rm -f {}".format(file)
+    os.system(bash_command)
+    os.system("chmod 1441 {}".format(file.rstrip(ext)+".e"))
+
+
+def buildCrontab():
+    cron = CronTab(user=True)
+
+    job1 = cron.new(command='/usr/bin/python3 /home/$USER/backupManager/telegram_bot.py')
+    job1.setall('@reboot')
+
+    job2 = cron.new(command='/usr/bin/python3 /home/$USER/backupManager/backup.py b')
+    job2.setall('59 23 * * *')
+
+    cron.write()
 if __name__ == "__main__":
     getUsuarios()
     getDirectorios()
     getToml()
+    buildCrontab()
