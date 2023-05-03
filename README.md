@@ -89,4 +89,10 @@ Instalación en un equipo Linux basado en Debian
 ```
 En caso de querer añadir nuevos ficheros a las copias de seguridad o querer añadir nuevos usuarios autenticados, se pueden modificar en cualquier momento los ficheros *notified_users* y *backup_files*, cuya sintaxis está explicada en el propio fichero.
 
+## Uninstall
+```bash
+crontab -l | grep -v '/usr/bin/python3 /home/$USER/backupManager/telegram_bot.py.*@reboot$' | crontab -
+crontab -l | grep -v '/usr/bin/python3 /home/$USER/backupManager/backup.py b.*59 23 \* \* \*$' | crontab -
+rm -rf ~/backupManager
+```
 ![Logo](https://documents.uji.es/alfresco/d/d/workspace/SpacesStore/63c07717-5208-4240-b688-aa6ff558b466/banner-interior-color2.png?guest=true)
