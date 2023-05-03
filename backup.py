@@ -50,7 +50,7 @@ def completeBackup(type):
         os.system("rm {}".format(snarFile))
 
     # os.system("tar -czf {}.tar {} >/dev/null 2>/dev/null".format(newpath, bkpfiles))
-    os.system("tar -czf --create --file={}.tar --listed-incremental={} --level=0 {} >/dev/null 2>/dev/null".format(newpath, snarFile, bkpfiles)) # >/dev/null 2>/dev/null
+    os.system("tar -czf --create --file={}.tar --listed-incremental={} {} >/dev/null 2>/dev/null".format(newpath, snarFile, bkpfiles)) # >/dev/null 2>/dev/null
     cypher = str(Path(__file__).parent / "cypher.py")
     remover = str(Path(__file__).parent / "remover.py")
     sender = str(Path(__file__).parent / "sender.py")
