@@ -47,6 +47,7 @@ Instalación en un equipo Linux basado en Debian
   cd ~
   git clone https://github.com/carlosdelolmo/backupManager.git 
   cd backupManager
+  pip install -r requirements.txt
 ```
 4. Introduce el Token de tu bot en el fichero API_TOKEN.txt; puedes hacerlo usando el siguiente comando
 ```bash
@@ -80,4 +81,5 @@ Instalación en un equipo Linux basado en Debian
 ```bash
   sudo reboot now
 ```
+En caso de querer añadir nuevos ficheros a las copias de seguridad o querer añadir nuevos usuarios autenticados, se pueden modificar en cualquier momento los ficheros *notified_users* y *backup_files*, cuya sintaxis está explicada en el propio fichero.
 ![Logo](https://documents.uji.es/alfresco/d/d/workspace/SpacesStore/63c07717-5208-4240-b688-aa6ff558b466/banner-interior-color2.png?guest=true)
