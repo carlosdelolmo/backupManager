@@ -91,8 +91,9 @@ En caso de querer añadir nuevos ficheros a las copias de seguridad o querer añ
 
 ## Uninstall
 ```bash
-crontab -l | grep -v '/usr/bin/python3 /home/$USER/backupManager/telegram_bot.py.*@reboot$' | crontab -
-crontab -l | grep -v '/usr/bin/python3 /home/$USER/backupManager/backup.py b.*59 23 \* \* \*$' | crontab -
+user=$(whoami)
+(crontab -u $user -l | grep -v '/usr/bin/python3 /home/'$user'/backupManager/telegram_bot.py') | crontab -u $user -
+(crontab -u $user -l | grep -v '/usr/bin/python3 /home/'$user'/backupManager/backup.py b') | crontab -u $user -
 rm -rf ~/backupManager
 ```
 ![Logo](https://documents.uji.es/alfresco/d/d/workspace/SpacesStore/63c07717-5208-4240-b688-aa6ff558b466/banner-interior-color2.png?guest=true)
