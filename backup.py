@@ -196,7 +196,7 @@ def decompress(file):
     # print(file)
     # os.system("tar -xf {} -C /".format(file))
     snarFile = str(Path(__file__).parent / "backup.snar")
-    os.system("tar --extract --listed-incremental={} --file {} /".format(snarFile, file))
+    os.system("tar --extract --listed-incremental={} --file={} -C/".format(snarFile, file))
 
     # print("paso")
     os.system("python3 {} e {} ".format(cypher, file))
