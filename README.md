@@ -44,6 +44,7 @@ Instalación en un equipo Linux basado en Debian
 ```bash
   sudo apt-get install pip
   sudo apt-get install python3
+  sudo apt-get install git
   cd ~
   git clone https://github.com/carlosdelolmo/backupManager.git 
   cd backupManager
