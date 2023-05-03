@@ -38,7 +38,7 @@ Instalación en un equipo Linux basado en Debian
 
 1. Crea tu propio bot de Telegram mediante el [procedimiento habitual](https://core.telegram.org/bots#how-do-i-create-a-bot) y posteriormente mánadale un mensaje cualquiera para guardarlo en tu bandeja de mensajes.
 
-2. Guárdate el Token de tu bot, lo necesitarás más adelante.
+2. Guárdate el Token de tu bot que obtendrás durante la creación, lo necesitarás más adelante.
 
 3. Ejecuta el siguiente código en un terminal bash
 ```bash
