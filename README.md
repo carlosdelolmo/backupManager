@@ -89,7 +89,7 @@ Instalación en un equipo Linux basado en Debian
 ```
 En caso de querer añadir nuevos ficheros a las copias de seguridad o querer añadir nuevos usuarios autenticados, se pueden modificar en cualquier momento los ficheros *notified_users* y *backup_files*, cuya sintaxis está explicada en el propio fichero.
 
-## Uninstall
+## Desinstalación
 ```bash
 user=$(whoami)
 (crontab -u $user -l | grep -v '/usr/bin/python3 /home/'$user'/backupManager/telegram_bot.py') | crontab -u $user -
