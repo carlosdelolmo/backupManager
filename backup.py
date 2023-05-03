@@ -76,7 +76,7 @@ def incrBackup(lastCompleteBackup):
         f = f.strip(" ").strip("\n").strip("\t").strip(" ")
         if (not f in [".", "..", "", "\n", "\t", " "]) and not f.startswith("//") and f.startswith("/"):
             bkpfiles += f + " "
-    os.system("tar -czf {}.tar -g {} {} >/dev/null 2>/dev/null".format(newpath, snarFile, bkpfiles)) # >/dev/null 2>/dev/null
+    os.system("tar -czf {}.tar --listed-incremental={} {} >/dev/null 2>/dev/null".format(newpath, snarFile, bkpfiles)) # >/dev/null 2>/dev/null
     cypher = str(Path(__file__).parent / "cypher.py")
     sender = str(Path(__file__).parent / "sender.py")
     remover = str(Path(__file__).parent / "remover.py")

@@ -9,6 +9,8 @@ backupManager es un gestor de copias de seguridad cifradas. El sistema está int
 - [@carlosdelolmo](https://github.com/carlosdelolmo)
 
 
+## Funcionamiento básico
+Una vez instalado, el programa se ejecuta automáticamente al iniciar el equipo. Las copias de seguridad se realizan automáticamente cada día, aunque se pueden realizar de forma manual mediante el bot de Telegram. Para que las copias sean automáticas, el equipo debe estar encendido a las 23:55...
 ## Uso del bot
 ### Comandos para usuarios sin autenticar
 #### /empezar
@@ -20,6 +22,8 @@ El bot responde con una breve explicación de las funciones que puede realizar e
 Además de todas las funciones que pueden realizar los usuarios sin autenticar, el usuario autenticado podrá usar las siguientes funciones:
 #### /ls 
 El bot responde con un listado de las copias de seguridad actuales realizadas.
+#### /usuarios
+El bot responde con un listado de los usuarios autorizados.
 #### /backup
 El bot realiza una copia de seguridad en ese mismo momento.
 #### /rs [nombre_de_la_copia]
