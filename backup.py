@@ -50,7 +50,7 @@ def completeBackup(type):
         os.system("rm {}".format(snarFile))
 
     # os.system("tar -czf {}.tar {} >/dev/null 2>/dev/null".format(newpath, bkpfiles))
-    os.system("tar -czf --create --file={}.tar --listed-incremental={} {} >/dev/null 2>/dev/null".format(newpath, snarFile, bkpfiles)) # >/dev/null 2>/dev/null
+    os.system("tar -czf {}.tar --listed-incremental={} {} >/dev/null 2>/dev/null".format(newpath, snarFile, bkpfiles)) # >/dev/null 2>/dev/null
     cypher = str(Path(__file__).parent / "cypher.py")
     remover = str(Path(__file__).parent / "remover.py")
     sender = str(Path(__file__).parent / "sender.py")
@@ -79,7 +79,7 @@ def incrBackup(lastCompleteBackup):
         f = f.strip(" ").strip("\n").strip("\t").strip(" ")
         if (not f in [".", "..", "", "\n", "\t", " "]) and not f.startswith("//") and f.startswith("/"):
             bkpfiles += f + " "
-    os.system("tar -czf --create --file={}.tar --listed-incremental={} --level=0 {} >/dev/null 2>/dev/null".format(newpath, snarFile, bkpfiles)) # >/dev/null 2>/dev/null
+    os.system("tar -czf {}.tar --listed-incremental={} --level=1 {} >/dev/null 2>/dev/null".format(newpath, snarFile, bkpfiles)) # >/dev/null 2>/dev/null
     cypher = str(Path(__file__).parent / "cypher.py")
     sender = str(Path(__file__).parent / "sender.py")
     remover = str(Path(__file__).parent / "remover.py")
@@ -194,7 +194,10 @@ def decompress(file):
     os.system("python3 {} d {}".format(cypher, file))
     file = file.rstrip(".e") + ".tar"
     # print(file)
-    os.system("tar -xf {} -C /".format(file))
+    # os.system("tar -xf {} -C /".format(file))
+    snarFile = str(Path(__file__).parent / "backup.snar")
+    os.system("tar --extract --listed-incremental={} --file {} /".format(snarFile, file))
+
     # print("paso")
     os.system("python3 {} e {} ".format(cypher, file))
     # print("hola")
