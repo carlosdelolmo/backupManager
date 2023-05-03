@@ -49,11 +49,12 @@ Instalación en un equipo Linux basado en Debian
   cd backupManager
   pip install -r requirements.txt
 ```
-4. Introduce el Token de tu bot en el fichero API_TOKEN.txt; puedes hacerlo usando el siguiente comando
+4. Introduce el Token de tu bot en el fichero *API_TOKEN.txt*; puedes hacerlo usando el siguiente comando
 ```bash
   echo "Tu_token" > API_TOKEN.txt
 ```
 5. Obtén tu UID de Telegram:
+
 5.1 Ejecuta el siguiente script para obtener tu UID de Telegram con el bot creado anteriormente:
 ```bash
   python3 telegram_bot.py
