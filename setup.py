@@ -19,7 +19,7 @@ def getUsuarios():
             nextUid = input("Introduce el UID del usuario {} o pulsa intro para terminar: ".format(x))
         else:
             break
-    with open('notified_users', 'w') as f:
+    with open('auth_users', 'w') as f:
         f.write(res)
     return res
 

@@ -103,7 +103,7 @@ def getAuthUsersName():
     return getAuthUsers()[1]
 
 def getAuthUsers():
-    filename = os.path.join(dirname, 'notified_users')
+    filename = os.path.join(dirname, 'auth_users')
     try:
         f = open(filename, "r")
         id = []
