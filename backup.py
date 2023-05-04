@@ -9,25 +9,34 @@ def dobackup():
     backupsDir = str(Path(__file__).parent / "backups")
     if not os.path.exists(backupsDir):
         os.mkdir(backupsDir)
-    dt = datetime.datetime.now()
     backupMap = getCompleteBackupsMap()
-    lastBackupDates = getLastCompleteBackupList(backupMap)
+    lastBackupDates = getLastCompleteBackupList(backupMap) # ToDo Puedo usar una función getLastYComplete, por ejemplo
+    lastYBackupDate = getLastCompleteFilteredBackupList(backupMap, "y")
+    lastMBackupDate = getLastCompleteFilteredBackupList(backupMap, "m")
+    lastWBackupDate = getLastCompleteFilteredBackupList(backupMap, "w")
     # lastBackupDate = sorted(list(backupMap.keys()))[-1]
     # print(lastBackupDate)
     # print(lastBackupDate[-1])
     # print(backupMap[lastBackupDate[-1]])
-    diff = (dt - datetime.datetime.strptime(lastBackupDates[-1], "%d/%m/%Y")).days if len(lastBackupDates) > 0 else 361
+    # diff = (dt - datetime.datetime.strptime(lastBackupDates[-1], "%d/%m/%Y")).days if len(lastBackupDates) > 0 else 361
     # print(diff.days)
-    if diff > 360:
+    diffY = calculateDiffDate(lastYBackupDate[-1]) if len(lastYBackupDate) > 0 else 361
+    diffM = calculateDiffDate(lastMBackupDate[-1]) if len(lastMBackupDate) > 0 else 361
+    diffW = calculateDiffDate(lastWBackupDate[-1]) if len(lastMBackupDate) > 0 else 361
+    if diffY > 360: # ToDo pero con la última anual, animal, si no solo hacer que semanales, melón
         completeBackup("y")
-    elif diff > 30:
+    elif diffM > 30:
         completeBackup("m")
-    elif diff > 7:
+    elif diffW > 7:
         completeBackup("w")
     else:
         # copia incremental basada en backupMap[lastBackupDate[-1]]
         incrBackup(backupMap[lastBackupDates[-1]])
 
+
+def calculateDiffDate(file):
+    dt = datetime.datetime.now()
+    return (dt - datetime.datetime.strptime(file, "%d/%m/%Y")).days
 def completeBackup(type):
     dt = datetime.datetime.now()
     backupFileName = "{}backup-{:02}.{:02}.{:02}-{:02}.{:02}.{:02}".format(type, dt.day, dt.month, dt.year, dt.hour, dt.minute, dt.second)  # ToDo
@@ -204,6 +213,12 @@ def decompress(file):
 
 def getLastCompleteBackupList(backupMap):
     return sorted(list(backupMap.keys()), key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
+
+
+def getLastCompleteFilteredBackupList(backupMap, type):
+    yKeys = [k for k in backupMap.keys() if k.startswith(type)]
+    sortedYKeys = sorted(yKeys, key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
+    return sortedYKeys
 
 def calcular_directorio(directorio): # get size in bytes
     return sum([sum([os.path.getsize(rutas+"/"+archivo) for archivo in archivos]) for rutas, _, archivos in os.walk(directorio)])
