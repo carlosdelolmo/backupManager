@@ -216,7 +216,7 @@ def getLastCompleteBackupList(backupMap):
 
 
 def getLastCompleteFilteredBackupList(backupMap, type):
-    yKeys = [k for k in backupMap.keys() if k.startswith(type)]
+    yKeys = [k for k, v in backupMap.items() for bk in v if bk.startswith(type)]
     sortedYKeys = sorted(yKeys, key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
     return sortedYKeys
 
