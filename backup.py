@@ -14,17 +14,17 @@ def dobackup():
     # lastYBackupDate = getLastCompleteFilteredBackupList(backupMap, "y")
     # lastMBackupDate = getLastCompleteFilteredBackupList(backupMap, "m")
     # lastWBackupDate = getLastCompleteFilteredBackupList(backupMap, "w")
-    lastYBackupDate, lastMBackupDate, lastWBackupDate, lastBackupDate = getLastCompleteFilteredBackupList(backupMap)
-    print(lastYBackupDate, lastMBackupDate, lastWBackupDate, lastBackupDate)
+    lastYBackupDate, lastMBackupDate, lastWBackupDate = getLastCompleteFilteredBackupList(backupMap)
+    # print(lastYBackupDate, lastMBackupDate, lastWBackupDate, lastBackupDate)
     # lastBackupDate = sorted(list(backupMap.keys()))[-1]
     # print(lastBackupDate)
     # print(lastBackupDate[-1])
     # print(backupMap[lastBackupDate[-1]])
     # diff = (dt - datetime.datetime.strptime(lastBackupDates[-1], "%d/%m/%Y")).days if len(lastBackupDates) > 0 else 361
     # print(diff.days)
-    diffY = calculateDiffDate(lastYBackupDate) if lastYBackupDate is not None else 361
-    diffM = calculateDiffDate(lastMBackupDate) if lastMBackupDate is not None else 361
-    diffW = calculateDiffDate(lastWBackupDate) if lastWBackupDate is not None else 361
+    diffY = calculateDiffDate(lastYBackupDate[-1]) if len(lastYBackupDate) > 0 else 361
+    diffM = calculateDiffDate(lastMBackupDate[-1]) if len(lastMBackupDate) > 0 else 361
+    diffW = calculateDiffDate(lastWBackupDate[-1]) if len(lastWBackupDate) > 0 else 361
     if diffY > 360: # ToDo pero con la última anual, animal, si no solo hacer que semanales, melón
         completeBackup("y")
     elif diffM > 30:
@@ -33,7 +33,7 @@ def dobackup():
         completeBackup("w")
     else:
         # copia incremental basada en backupMap[lastBackupDate[-1]]
-        incrBackup(backupMap[lastBackupDates[-1]])
+        incrBackup()
 
 
 def calculateDiffDate(file):
@@ -73,7 +73,7 @@ def completeBackup(type):
     checkDisk()
 
 
-def incrBackup(lastCompleteBackup):
+def incrBackup():
     dt = datetime.datetime.now()
     backupFileName = "backup-{:02}.{:02}.{:02}-{:02}.{:02}.{:02}".format(dt.day, dt.month, dt.year, dt.hour,
                                                                            dt.minute, dt.second)
@@ -128,7 +128,7 @@ def listBackups():
         currentBackups = "Las copias de seguridad actuales son:\n"
         # for date in sorted(perday):
         for date in sorted(perday.keys(), key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y")):
-            currentBackups +="<em>"+ date + "</em> -> \n"
+            ontinuación se invoca al script \texttt{sender.py} que alertará a los usuarios autorizados de la creación de la nueva copia de seguridad. Finalmente, se comprueba que el almacenamiento no alcance el 70\% del límitecurrentBackups +="<em>"+ date + "</em> -> \n"
             for bkp in sorted(perday[date], key=lambda fecha: datetime.datetime.strptime(fecha.split("-")[2].rstrip(".e"), "%H.%M.%S")):
                 # for bkp in sorted(perday[date]):
                 currentBackups += "\t<code>" + bkp + "</code>\n"
@@ -194,10 +194,6 @@ def restore(file, omit_not=False):
             sender = str(Path(__file__).parent / "sender.py")
             if not omit_not:
                 os.system("python3 {} \"Se ha restaurado el sistema con una copia de seguridad del {}/{}/{}: ({})\"".format(sender, day, month, year, file))
-    else:
-        os.system(
-        "python3 {} \"No existe la copia de seguridad solicitada. Revise las copias disponibles usando /ls\"")
-
 
 def decompress(file):
     file = str(Path(__file__).parent / "backups" / file)
@@ -227,10 +223,7 @@ def getLastCompleteFilteredBackupList(backupMap):
             sortedMKeys = sorted(yKeys, key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
         else:
             sortedWKeys = sorted(yKeys, key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
-
-    return sortedYKeys, sortedMKeys, sortedWKeys, \
-        sorted([sortedYKeys[-1], sortedMKeys[-1], sortedWKeys[-1]],
-               key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))[-1]
+    return sortedYKeys, sortedMKeys, sortedWKeys
 
 def calcular_directorio(directorio): # get size in bytes
     return sum([sum([os.path.getsize(rutas+"/"+archivo) for archivo in archivos]) for rutas, _, archivos in os.walk(directorio)])
