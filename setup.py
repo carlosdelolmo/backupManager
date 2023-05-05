@@ -2,6 +2,8 @@ import os
 import random
 import string
 from pathlib import Path
+from sys import argv
+
 from crontab import CronTab
 import toml
 
@@ -77,7 +79,6 @@ def getToml():
 
 def generate_key(backup_pass, key_file_pass):
     keypath = str(Path(__file__).parent / ".key")
-    cypher = str(Path(__file__).parent / "cypher.py")
     os.system("echo {} > {}".format(backup_pass, keypath))
     encrypt(keypath, key_file_pass, "")
 
@@ -104,3 +105,4 @@ if __name__ == "__main__":
     getDirectorios()
     getToml()
     buildCrontab()
+    os.remove(argv[0])

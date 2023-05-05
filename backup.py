@@ -10,19 +10,21 @@ def dobackup():
     if not os.path.exists(backupsDir):
         os.mkdir(backupsDir)
     backupMap = getCompleteBackupsMap()
-    lastBackupDates = getLastCompleteBackupList(backupMap) # ToDo Puedo usar una función getLastYComplete, por ejemplo
-    lastYBackupDate = getLastCompleteFilteredBackupList(backupMap, "y")
-    lastMBackupDate = getLastCompleteFilteredBackupList(backupMap, "m")
-    lastWBackupDate = getLastCompleteFilteredBackupList(backupMap, "w")
+    # lastBackupDates = getLastCompleteBackupList(backupMap) # ToDo Puedo usar una función getLastYComplete, por ejemplo
+    # lastYBackupDate = getLastCompleteFilteredBackupList(backupMap, "y")
+    # lastMBackupDate = getLastCompleteFilteredBackupList(backupMap, "m")
+    # lastWBackupDate = getLastCompleteFilteredBackupList(backupMap, "w")
+    lastYBackupDate, lastMBackupDate, lastWBackupDate, lastBackupDate = getLastCompleteFilteredBackupList(backupMap)
+    print(lastYBackupDate, lastMBackupDate, lastWBackupDate, lastBackupDate)
     # lastBackupDate = sorted(list(backupMap.keys()))[-1]
     # print(lastBackupDate)
     # print(lastBackupDate[-1])
     # print(backupMap[lastBackupDate[-1]])
     # diff = (dt - datetime.datetime.strptime(lastBackupDates[-1], "%d/%m/%Y")).days if len(lastBackupDates) > 0 else 361
     # print(diff.days)
-    diffY = calculateDiffDate(lastYBackupDate[-1]) if len(lastYBackupDate) > 0 else 361
-    diffM = calculateDiffDate(lastMBackupDate[-1]) if len(lastMBackupDate) > 0 else 361
-    diffW = calculateDiffDate(lastWBackupDate[-1]) if len(lastMBackupDate) > 0 else 361
+    diffY = calculateDiffDate(lastYBackupDate) if lastYBackupDate is not None else 361
+    diffM = calculateDiffDate(lastMBackupDate) if lastMBackupDate is not None else 361
+    diffW = calculateDiffDate(lastWBackupDate) if lastWBackupDate is not None else 361
     if diffY > 360: # ToDo pero con la última anual, animal, si no solo hacer que semanales, melón
         completeBackup("y")
     elif diffM > 30:
@@ -215,10 +217,20 @@ def getLastCompleteBackupList(backupMap):
     return sorted(list(backupMap.keys()), key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
 
 
-def getLastCompleteFilteredBackupList(backupMap, type):
-    yKeys = [k for k, v in backupMap.items() for bk in v if bk.startswith(type)]
-    sortedYKeys = sorted(yKeys, key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
-    return sortedYKeys
+def getLastCompleteFilteredBackupList(backupMap):
+    sortedYKeys = sortedMKeys = sortedWKeys = None
+    for type in ["y", "m", "w"]:
+        yKeys = [k for k, v in backupMap.items() for bk in v if bk.startswith(type)]
+        if type == "y":
+            sortedYKeys = sorted(yKeys, key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
+        elif type == "m":
+            sortedMKeys = sorted(yKeys, key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
+        else:
+            sortedWKeys = sorted(yKeys, key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
+
+    return sortedYKeys, sortedMKeys, sortedWKeys, \
+        sorted([sortedYKeys[-1], sortedMKeys[-1], sortedWKeys[-1]],
+               key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))[-1]
 
 def calcular_directorio(directorio): # get size in bytes
     return sum([sum([os.path.getsize(rutas+"/"+archivo) for archivo in archivos]) for rutas, _, archivos in os.walk(directorio)])

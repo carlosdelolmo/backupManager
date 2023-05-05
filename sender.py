@@ -32,7 +32,7 @@ if __name__ == '__main__':
     # schedule.every().minutes.at(":00").do(req, 'Es la hora!')
     # schedule.every(5).seconds.do(req, 'Es el segundo!')
     # client_program()
-    if len(sys.argv) == 2 and os.getppid() > 10000:
+    if len(sys.argv) == 2:
         message = sys.argv[1]
         req(message)
     # while True:
