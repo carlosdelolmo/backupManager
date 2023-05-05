@@ -10,7 +10,7 @@ backupManager es un gestor de copias de seguridad cifradas. El sistema está int
 
 
 ## Funcionamiento básico
-Una vez instalado, el programa se ejecuta automáticamente al iniciar el equipo. Las copias de seguridad se realizan automáticamente cada día, aunque se pueden realizar de forma manual mediante el bot de Telegram. Para que las copias sean automáticas, el equipo debe estar encendido a las 23:55...
+Una vez instalado, el programa se ejecuta automáticamente al iniciar el equipo. Las copias de seguridad se realizan automáticamente cada día, aunque se pueden realizar de forma manual mediante el bot de Telegram. Para que las copias sean automáticas, el equipo debe estar encendido a las 23:59.
 ## Uso del bot
 ### Comandos para usuarios sin autenticar
 #### /empezar
@@ -56,21 +56,26 @@ Instalación en un equipo Linux basado en Debian
 ```
 4. Introduce el Token de tu bot en el fichero *API_TOKEN.txt*; puedes hacerlo usando el siguiente comando
 ```bash
+  cd ~/backupManager
   echo "Tu_token" > API_TOKEN.txt
 ```
 5. Obtén tu UID de Telegram:
 
 5.1 Ejecuta el siguiente script para obtener tu UID de Telegram con el bot creado anteriormente:
 ```bash
+  cd ~/backupManager
   python3 telegram_bot.py
 ```
 5.2 Envía al bot el siguiente mensaje. Deberá responderte con tu UID. Guárdatelo, lo necesitarás más adelante.
 ```txt
   /empezar
 ```
+5.3 Puedes parar el bot de Telegram, no lo necesitarás más por ahora. Pulsa *Ctrl + c* sobre la ventana en la que estabas ejecutando el paso 5.1.
+
 6. Configura el gestor de copias según tu necesidad:
 6.1 Ejecuta el siguiente script para configurar backupManager a tu gusto 
 ```bash
+  cd ~/backupManager
   python3 setup.py
 ```
 6.1. Deberás introducir tu UID, que deberías tener guardado del paso 5.
