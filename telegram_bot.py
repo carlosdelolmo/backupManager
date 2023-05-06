@@ -119,7 +119,7 @@ def restore(message):
             )
         else:
             if not backup.restore(com[1]):
-                bot.send_message("La copia de seguridad solicitada no existe. Revisa el listado de copias disponible con /ls o el listado completo de comandos con /ayuda.")
+                bot.send_message(id, "La copia de seguridad solicitada no existe. Revisa el listado de copias disponible con /ls o el listado completo de comandos con /ayuda.")
     else:
         bot.send_message(id, generateNoAuthUsersString())
 

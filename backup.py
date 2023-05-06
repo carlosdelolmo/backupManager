@@ -269,7 +269,7 @@ def getLastCompleteBackupList(backupMap, maxDate):
             if datetime.datetime.strptime(file[1:].rstrip(".e").lstrip("backup-"), "%d.%m.%Y-%H.%M.%S") < maxDate:
                 filtered_dates.append(file)
     # filtered_dates = [date for date, file in backupMap.items() if datetime.datetime.strptime(file.rstrip(".e").lstrip("backup-"), "%d.%m.%Y-%H.%M.%S") <= maxDate]
-    sorted_dates = sorted(filtered_dates, key=lambda file: datetime.datetime.strptime(file[1:].rstrip(".e").lstrip("backup-"), "%d/%m/%Y-%H.%M.%S"))
+    sorted_dates = sorted(filtered_dates, key=lambda file: datetime.datetime.strptime(file[1:].rstrip(".e").lstrip("backup-"), "%d.%m.%Y-%H.%M.%S"))
     return sorted_dates
 
 def getLastCompleteFilteredBackupList(backupMap):

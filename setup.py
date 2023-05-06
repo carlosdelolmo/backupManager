@@ -83,7 +83,7 @@ def getToml():
 
     print("Guardado tamaño máximo: {} GB\n".format(maxSizeGb))
     cypherPass = input("Por favor, introduce la contraseña de cifrado de las copias: ")
-    while not (len(apiToken) > 0):
+    while not (len(cypherPass) > 0):
         cypherPass = input(
             "Por favor, introduce la contraseña de cifrado de las copias: "
         )
