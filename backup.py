@@ -97,7 +97,7 @@ def incrBackup():
         ):
             bkpfiles += f + " "
     os.system(
-        "tar -czf {}.tar --listed-incremental={} --level=1 {} >/dev/null 2>/dev/null".format(
+        "tar -czf {}.tar --listed-incremental={} {} >/dev/null 2>/dev/null".format(
             newpath, snarFile, bkpfiles
         )
     )
@@ -226,9 +226,9 @@ def restore(file, omit_not=False):
             day, month, year = junkDate.split("-")[0].split(".")
             hour, minute, second = junkDate.split("-")[1].split(".")
             maxDate = datetime.datetime(day=int(day), month=int(month), year=int(year), hour=int(hour), minute=int(minute), second=int(second))
-            backupsMap = getCompleteBackupsMap()
+            backupsMap = getBackupsMap()
             lastCompleteBackup = getLastCompleteBackupList(backupsMap, maxDate)[-1]
-            restore(lastCompleteBackup[-1], True)
+            restore(lastCompleteBackup, True)
             decompress(file)
             sender = str(Path(__file__).parent / "sender.py")
             if not omit_not:

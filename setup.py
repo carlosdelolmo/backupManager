@@ -83,10 +83,23 @@ def getToml():
 
     print("Guardado tamaño máximo: {} GB\n".format(maxSizeGb))
     cypherPass = input("Por favor, introduce la contraseña de cifrado de las copias: ")
-    while not (len(cypherPass) > 0):
+    i = 0
+    continuar = False
+    p1 = ""
+    while not continuar:
+        combinator = "introduce" if len(p1) == 0 else "repite"
         cypherPass = input(
-            "Por favor, introduce la contraseña de cifrado de las copias: "
+            "Por favor, {} la contraseña de cifrado de las copias: ".format(combinator)
         )
+        if len(cypherPass) > 0 and len(p1) == 0:
+            p1 = cypherPass
+        elif len(cypherPass) > 0 and len(p1) > 0:
+            if cypherPass == p1:
+                continuar = True
+            else:
+                print("Las contraseñas no coinciden.\n")
+        else:
+            p1 = ""
     print("Guardada contraseña de cifrado\n")
     key_pass = "".join(random.choices(string.ascii_letters + string.digits, k=15))
 
