@@ -108,4 +108,4 @@ rm -rf ~/backupManager
 
 ![Logo](https://documents.uji.es/alfresco/d/d/workspace/SpacesStore/63c07717-5208-4240-b688-aa6ff558b466/banner-interior-color2.png?guest=true)
 
-© 2023 Carlos del Olmo Borràs
+© 2023 Carlos del Olmo
