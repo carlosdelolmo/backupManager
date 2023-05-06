@@ -72,17 +72,14 @@ def getToml():
         apiToken = f.readline().strip(" \n")
     path = str(Path(__file__).parent / "API_TOKEN.txt")
     os.system("rm {}".format(path))
-    maxSizeGb = float(
-        input(
+    maxSizeGbStr = input(
             "Por favor, introduce el tamaño máximo que puede ocupar el directorio de backups, en GB: "
         )
-    )
-    while not (len(str(maxSizeGb)) > 0):
-        maxSizeGb = float(
-            input(
+    while not (len(maxSizeGbStr) > 0):
+        maxSizeGbStr = input(
                 "Por favor, introduce el tamaño máximo que puede ocupar el directorio de backups, en GB: "
             )
-        )
+    maxSizeGb = float(maxSizeGbStr)
 
     print("Guardado tamaño máximo: {} GB\n".format(maxSizeGb))
     cypherPass = input("Por favor, introduce la contraseña de cifrado de las copias: ")
