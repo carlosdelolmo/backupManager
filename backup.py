@@ -145,6 +145,7 @@ def listBackups():
             perday.keys(),
             key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"),
         ):
+            currentBackups += "<em>" + date + "</em> -> \n"
             for bkp in perday[date]:
                 currentBackups += "\t<code>" + bkp + "</code>\n"
         size, maxSizeGb = getBackupsSizeGb()
@@ -222,7 +223,7 @@ def restore(file, omit_not=False):
                 .split("-")[1]
                 .split(".")
             )
-            maxDate = datetime.datetime(day=day, month=month, year=year)
+            maxDate = datetime.datetime(day=int(day), month=int(month), year=int(year))
             backupsMap = getCompleteBackupsMap()
             lastCompleteBackup = getLastCompleteBackupList(backupsMap, maxDate)[-1]
             restore(backupsMap[lastCompleteBackup][-1], True)
@@ -260,7 +261,7 @@ def decompress(file):
     )'''
 
 def getLastCompleteBackupList(backupMap, maxDate):
-    filtered_dates = [date for date in backupMap.keys() if datetime.datetime.strptime(date, "%d/%m/%Y") <= maxDate]
+    filtered_dates = [date for date, file in backupMap.items() if datetime.datetime.strptime(file.rstrip(".e").lstrip("backup-"), "%d.%m.%Y-%H.%M.%S") <= maxDate]
     sorted_dates = sorted(filtered_dates, key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
     return sorted_dates
 

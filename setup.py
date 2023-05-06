@@ -83,11 +83,14 @@ def getToml():
                 "Por favor, introduce el tamaño máximo que puede ocupar el directorio de backups, en GB: "
             )
         )
+
+    print("Guardado tamaño máximo: {} GB\n".format(maxSizeGb))
     cypherPass = input("Por favor, introduce la contraseña de cifrado de las copias: ")
     while not (len(apiToken) > 0):
         cypherPass = input(
             "Por favor, introduce la contraseña de cifrado de las copias: "
         )
+    print("Guardada contraseña de cifrado\n")
     key_pass = "".join(random.choices(string.ascii_letters + string.digits, k=15))
 
     res = {

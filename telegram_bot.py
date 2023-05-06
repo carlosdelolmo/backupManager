@@ -1,4 +1,3 @@
-import sys
 import threading
 import telebot
 import socket

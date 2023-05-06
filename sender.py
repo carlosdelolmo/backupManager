@@ -1,6 +1,5 @@
 import socket
 import sys
-import os
 
 
 def req(message):
@@ -11,7 +10,7 @@ def req(message):
     client_socket = socket.socket()
     client_socket.connect((host, port))
     encodedMessage = message.encode()
-    client_socket.send(len(encodedMessage))
+    client_socket.send(str(len(encodedMessage)).encode())
     print("enviado: " + str(len(encodedMessage)))
     client_socket.recv(128)
     print("recibido ack")
