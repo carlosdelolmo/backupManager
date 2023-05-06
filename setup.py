@@ -77,7 +77,7 @@ def getToml():
             "Por favor, introduce el tamaño máximo que puede ocupar el directorio de backups, en GB: "
         )
     )
-    while not (len(apiToken) > 0):
+    while not (len(str(maxSizeGb)) > 0):
         maxSizeGb = float(
             input(
                 "Por favor, introduce el tamaño máximo que puede ocupar el directorio de backups, en GB: "
