@@ -119,7 +119,8 @@ def restore(message):
                 id, "La sintaxis del mensaje es incorrecta:\n\t/rs [fichero.e]"
             )
         else:
-            backup.restore(com[1])
+            if not backup.restore(com[1]):
+                bot.send_message("La copia de seguridad solicitada no existe. Revisa el listado de copias disponible con /ls o el listado completo de comandos con /ayuda.")
     else:
         bot.send_message(id, generateNoAuthUsersString())
 
@@ -187,15 +188,20 @@ def httpServer():
     port = 5020
 
     server_socket = socket.socket()
-    server_socket.bind((host, port))  # todo address already in use
+    server_socket.bind((host, port))
 
     server_socket.listen()
     while True:
         con, address = server_socket.accept()
-        data = con.recv(4096).decode()
-        if not data:
-            break
+        data = con.recv(128).decode()
+        buf_size = int(data)
+        print("recibido: " + str(buf_size))
+        con.send("200".encode())
+        print("enviado ack")
+        data = con.recv(buf_size).decode()
+        print("recibido: " + data)
         make_communication(data)
+        print("enviado ack2")
         con.send("200".encode())
         con.close()
 

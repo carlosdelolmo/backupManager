@@ -10,8 +10,15 @@ def req(message):
     )
     client_socket = socket.socket()
     client_socket.connect((host, port))
-    client_socket.send(message.encode())
-    data = client_socket.recv(4096).decode()
+    encodedMessage = message.encode()
+    client_socket.send(len(encodedMessage))
+    print("enviado: " + str(len(encodedMessage)))
+    client_socket.recv(128)
+    print("recibido ack")
+    client_socket.send(encodedMessage)
+    print("enviado: " + str(encodedMessage))
+    client_socket.recv(128).decode()
+    print("recibido ack2")
     client_socket.close()
 
 

@@ -145,12 +145,7 @@ def listBackups():
             perday.keys(),
             key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"),
         ):
-            for bkp in sorted(
-                perday[date],
-                key=lambda fecha: datetime.datetime.strptime(
-                    fecha.split("-")[2].rstrip(".e"), "%H.%M.%S"
-                ),
-            ):
+            for bkp in perday[date]:
                 currentBackups += "\t<code>" + bkp + "</code>\n"
         size, maxSizeGb = getBackupsSizeGb()
         currentBackups += "{} GB, {}%".format(size, round(size * 100 / maxSizeGb, 2))
@@ -158,7 +153,7 @@ def listBackups():
     os.system("python3 " + path + ' "' + currentBackups + '"')
 
 
-def getBackupsMap():
+def getBackupsMap(): # ToDo return ordered
     backupsPath = str(Path(__file__).parent / "backups")
     perday = {}
     if os.path.exists(backupsPath) and os.path.isdir(backupsPath):
@@ -171,10 +166,14 @@ def getBackupsMap():
                     perday[name] = [bkp]
                 else:
                     perday[name].append(bkp)
+    for k in perday.keys():
+        perday[k] = sorted(
+        list(perday.get(k)),
+        key=lambda fecha: datetime.datetime.strptime(fecha.split("-")[2].rstrip(".e"), "%H.%M.%S"))
     return perday
 
 
-def getCompleteBackupsMap():
+def getCompleteBackupsMap(): # ToDo return ordered
     backupsPath = str(Path(__file__).parent / "backups")
     perday = {}
     if os.path.exists(backupsPath) and os.path.isdir(backupsPath):
@@ -190,6 +189,10 @@ def getCompleteBackupsMap():
                         perday[name] = [bkp]
                     else:
                         perday[name].append(bkp)
+    for k in perday.keys():
+        perday[k] = sorted(
+        list(perday.get(k)),
+        key=lambda fecha: datetime.datetime.strptime(fecha.split("-")[2].rstrip(".e"), "%H.%M.%S"))
     return perday
 
 
@@ -214,15 +217,16 @@ def restore(file, omit_not=False):
                     )
                 )
         else:
-            backupsMap = getCompleteBackupsMap()
-            lastCompleteBackup = getLastCompleteBackupList(backupsMap)[-1]
-            restore(backupsMap[lastCompleteBackup][0], True)
-            decompress(file)
             day, month, year = (
                 file.lstrip(str(Path(__file__).parent / "backups"))
                 .split("-")[1]
                 .split(".")
             )
+            maxDate = datetime.datetime(day=day, month=month, year=year)
+            backupsMap = getCompleteBackupsMap()
+            lastCompleteBackup = getLastCompleteBackupList(backupsMap, maxDate)[-1]
+            restore(backupsMap[lastCompleteBackup][-1], True)
+            decompress(file)
             sender = str(Path(__file__).parent / "sender.py")
             if not omit_not:
                 os.system(
@@ -230,6 +234,9 @@ def restore(file, omit_not=False):
                         sender, day, month, year, file
                     )
                 )
+        return True
+    else:
+        return False
 
 
 def decompress(file):
@@ -245,12 +252,17 @@ def decompress(file):
     os.system("python3 {} e {} ".format(cypher, file))
 
 
-def getLastCompleteBackupList(backupMap):
+'''def getLastCompleteBackupList(backupMap):
+    # ToDo MaxDate
     return sorted(
         list(backupMap.keys()),
         key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"),
-    )
+    )'''
 
+def getLastCompleteBackupList(backupMap, maxDate):
+    filtered_dates = [date for date in backupMap.keys() if datetime.datetime.strptime(date, "%d/%m/%Y") <= maxDate]
+    sorted_dates = sorted(filtered_dates, key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
+    return sorted_dates
 
 def getLastCompleteFilteredBackupList(backupMap):
     sortedYKeys = sortedMKeys = sortedWKeys = None
