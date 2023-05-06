@@ -21,7 +21,7 @@ def lookupRemovable():
             if (now - file_date).days > 7:
                 removableBackups.add(filename)
         elif fnmatch.fnmatch(filename, yfilename_pattern):
-            if (now - file_date).days > 2 * 359:
+            if (now - file_date).days > 366:
                 removableBackups.add(filename)
         elif fnmatch.fnmatch(filename, mfilename_pattern):
             if (now - file_date).days > 360:
