@@ -21,7 +21,7 @@ def lookupRemovable():
             if (now - file_date).days > 7:
                 removableBackups.add(filename)
         elif fnmatch.fnmatch(filename, yfilename_pattern):
-            if (now - file_date).days > 2*359:
+            if (now - file_date).days > 2 * 359:
                 removableBackups.add(filename)
         elif fnmatch.fnmatch(filename, mfilename_pattern):
             if (now - file_date).days > 360:
@@ -39,17 +39,23 @@ def getBackupsList():
     currentBackupsList = os.listdir(backupsPath)
     return set(currentBackupsList)
 
+
 def remove(bk):
     path = str(Path(__file__).parent / "backups/")
-    # print("Borrado {0}".format(bk))
     os.remove(path + "/" + bk)
     sender = str(Path(__file__).parent / "sender.py")
-    os.system("python3 {} \"Se ha <b>eliminado</b> una copia de seguridad antigua: {}\"".format(sender, bk))
+    os.system(
+        'python3 {} "Se ha <b>eliminado</b> una copia de seguridad antigua: {}"'.format(
+            sender, bk
+        )
+    )
+
 
 def getBackupDate(bk):
     day, month, year = bk[1:].lstrip("backup-").split("-")[0].split(".")
     date = datetime(day=int(day), month=int(month), year=int(year))
     return date.timetuple().tm_yday, date.month, date.year
+
 
 if __name__ == "__main__":
     lookupRemovable()
