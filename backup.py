@@ -218,15 +218,17 @@ def restore(file, omit_not=False):
                     )
                 )
         else:
-            day, month, year = (
+            junkDate = (
                 file.lstrip(str(Path(__file__).parent / "backups"))
-                .split("-")[1]
-                .split(".")
+                .lstrip("backup-")
+                .rstrip(".e")
             )
-            maxDate = datetime.datetime(day=int(day), month=int(month), year=int(year))
+            day, month, year = junkDate.split("-")[0].split(".")
+            hour, minute, second = junkDate.split("-")[1].split(".")
+            maxDate = datetime.datetime(day=int(day), month=int(month), year=int(year), hour=int(hour), minute=int(minute), second=int(second))
             backupsMap = getCompleteBackupsMap()
             lastCompleteBackup = getLastCompleteBackupList(backupsMap, maxDate)[-1]
-            restore(backupsMap[lastCompleteBackup][-1], True)
+            restore(lastCompleteBackup[-1], True)
             decompress(file)
             sender = str(Path(__file__).parent / "sender.py")
             if not omit_not:
@@ -261,8 +263,13 @@ def decompress(file):
     )'''
 
 def getLastCompleteBackupList(backupMap, maxDate):
-    filtered_dates = [date for date, file in backupMap.items() if datetime.datetime.strptime(file.rstrip(".e").lstrip("backup-"), "%d.%m.%Y-%H.%M.%S") <= maxDate]
-    sorted_dates = sorted(filtered_dates, key=lambda fecha: datetime.datetime.strptime(fecha, "%d/%m/%Y"))
+    filtered_dates = []
+    for date, files in backupMap.items():
+        for file in files:
+            if datetime.datetime.strptime(file[1:].rstrip(".e").lstrip("backup-"), "%d.%m.%Y-%H.%M.%S") < maxDate:
+                filtered_dates.append(file)
+    # filtered_dates = [date for date, file in backupMap.items() if datetime.datetime.strptime(file.rstrip(".e").lstrip("backup-"), "%d.%m.%Y-%H.%M.%S") <= maxDate]
+    sorted_dates = sorted(filtered_dates, key=lambda file: datetime.datetime.strptime(file[1:].rstrip(".e").lstrip("backup-"), "%d/%m/%Y-%H.%M.%S"))
     return sorted_dates
 
 def getLastCompleteFilteredBackupList(backupMap):
