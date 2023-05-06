@@ -101,4 +101,11 @@ user=$(whoami)
 (crontab -u $user -l | grep -v '/usr/bin/python3 /home/'$user'/backupManager/backup.py b') | crontab -u $user -
 rm -rf ~/backupManager
 ```
+
+## Licencia
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
 ![Logo](https://documents.uji.es/alfresco/d/d/workspace/SpacesStore/63c07717-5208-4240-b688-aa6ff558b466/banner-interior-color2.png?guest=true)
+
+© 2023 Carlos del Olmo Borràs
