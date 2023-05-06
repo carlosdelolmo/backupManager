@@ -113,7 +113,6 @@ def restore(message):
     if isAuthUser(id):
         com = str(message.text).split(" ")
         if not len(com) == 2:
-            # print(str(com))
             bot.send_message(
                 id, "La sintaxis del mensaje es incorrecta:\n\t/rs [fichero.e]"
             )
@@ -197,7 +196,6 @@ def httpServer():
         con.send("200".encode())
         data = con.recv(buf_size).decode()
         make_communication(data)
-        print("enviado ack2")
         con.send("200".encode())
         con.close()
 
@@ -208,7 +206,6 @@ def answerTelegramMessages():
             target=bot.infinity_polling, name="bot_infinity_polling", daemon=True
         ).start()
     except TimeoutError:
-        print("Falló la conexión, pero se intentará reconectar")
         answerTelegramMessages()
 
 

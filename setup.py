@@ -31,6 +31,7 @@ def getUsuarios():
             )
         else:
             break
+    print()
     with open("auth_users", "w") as f:
         f.write(res)
     return res
@@ -62,6 +63,7 @@ def getDirectorios():
             )
             if len(nextPath) == 0:
                 break
+    print()
     with open("backup_files", "w") as f:
         f.write(res)
     return res
@@ -97,9 +99,11 @@ def getToml():
             if cypherPass == p1:
                 continuar = True
             else:
+                p1 = ""
                 print("Las contraseñas no coinciden.\n")
         else:
             p1 = ""
+            print()
     print("Guardada contraseña de cifrado\n")
     key_pass = "".join(random.choices(string.ascii_letters + string.digits, k=15))
 
