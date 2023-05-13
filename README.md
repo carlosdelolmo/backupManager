@@ -46,6 +46,7 @@ Instalación en un equipo Linux basado en Debian
 
 3. Ejecuta el siguiente código en un terminal bash
 ```bash
+  sudo apt-get update
   sudo apt-get install pip
   sudo apt-get install python3
   sudo apt-get install git
