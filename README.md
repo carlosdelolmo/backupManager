@@ -107,6 +107,6 @@ rm -rf ~/backupManager
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-![Logo](https://documents.uji.es/alfresco/d/d/workspace/SpacesStore/63c07717-5208-4240-b688-aa6ff558b466/banner-interior-color2.png?guest=true)
+![Logo](https://aulavirtual.uji.es/pluginfile.php/2/core_admin/logocompact/300x300/1684728173/logo_compacto.png)
 
 © 2023 Carlos del Olmo
