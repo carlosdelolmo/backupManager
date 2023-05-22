@@ -106,4 +106,5 @@ rm -rf ~/backupManager
 ## Licencia
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
 © 2023 Carlos del Olmo
