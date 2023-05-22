@@ -106,7 +106,4 @@ rm -rf ~/backupManager
 ## Licencia
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
-![Logo](https://aulavirtual.uji.es/pluginfile.php/2/core_admin/logocompact/300x300/1684728173/logo_compacto.png)
-
 © 2023 Carlos del Olmo
