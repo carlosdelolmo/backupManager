@@ -6,7 +6,7 @@ backupManager es un gestor de copias de seguridad cifradas. El sistema está int
 
 ## Authors
 
-- [@carlosdelolmo](https://github.com/carlosdelolmo)
+<a href="https://github.com/carlosdelolmo"><img src="https://i.ibb.co/xJ5CRzW/github-profilename-image.png" alt="carlosdelolmo" width="400"/></a>
 
 
 ## Funcionamiento básico
@@ -105,6 +105,6 @@ rm -rf ~/backupManager
 
 ## Licencia
 
-[MIT](https://choosealicense.com/licenses/mit/)
+<a href="https://choosealicense.com/licenses/mit/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/MIT_logo.svg/1920px-MIT_logo.svg.png" alt="MIT" height="50"/></a>
 
 © 2023 Carlos del Olmo
