@@ -4,7 +4,7 @@
 
 backupManager es un gestor de copias de seguridad cifradas. El sistema está integrado con un bot de Telegram para su gestión remota de forma segura, administradas por uno o más usuarios verificados por el administrador. El proyecto forma parte de un trabajo para la asignatura [EI1056-Seguridad Informática](https://ujiapps.uji.es/sia/rest/publicacion/2022/estudio/225/asignatura/EI1056) del grado de Ingeniería Informática en la Universitat Jaume I. Finalmente, el trabajo recibió una calificación de 10.
 
-## Authors
+## Autor
 
 <a href="https://github.com/carlosdelolmo"><img src="https://i.ibb.co/xJ5CRzW/github-profilename-image.png" alt="carlosdelolmo" width="400"/></a>
 
